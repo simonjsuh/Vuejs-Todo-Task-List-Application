@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- jquery for Bootstrap -->
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+  <!-- font awesome -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Vue.js script source -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+  <style>
+    .taskDone {
+      text-decoration: line-through;
+    }
+  </style>
+
+  <title>Todo List App</title>
+</head>
+<body>
+<div class="container col-sm-8 col-sm-offset-2">
+  <div id="taskApp">
+    <h1>Todo Task List App</h1>
+
+    <!-- Add new task form -->
+    <div class="panel panel-default">
+      <h2 class='text-center'>Add New Task</h2>
+
+      <form v-on:submit='addTask'>
+        <div class="col-sm-8">
+          <input type="text" class='form-control' v-model='tasks.name'>
+        </div>
+
+        <div class="col-sm-4">
+          <input type="submit" value='Add' class='btn btn-primary btn-block'>
+        </div>
+      </form>
+      &nbsp;
+    </div>
+
+    <table class="table">
+      <thead>
+        <th>Checkmark Done</th>
+        <th>Task Name</th>
+        <th>Delete</th>
+      </thead>
+
+      <tbody>
+        <tr v-for='task in tasks'>
+          <td><input type="checkbox" v-model="task.done"></td>
+          <td><span :class="{ taskDone: task.done }">{{ task.name }}</span></td>
+          <td><button class="btn btn-danger btn-block" v-on:click="deleteTask(task)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+var taskApp = new Vue({
+  el: '#taskApp',
+  data: {
+    tasks: [
+      { name: 'gotta do this task first', done: false },
+      { name: 'buy some pet food', done: false },
+      { name: 'install fishtank in living room', done: false },
+    ]
+  },
+  methods: {
+    addTask: function(e) {
+      e.preventDefault();
+      this.tasks.push({
+        name: this.tasks.name,
+        done: false
+      });
+    },
+    deleteTask: function(task) {
+      this.tasks.splice(this.tasks.indexOf(task), 1)
+    }
+  }
+});
+</script>
+</body>
+</html>
